@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "State loss rankings changed, but East Malaysia stayed at the top",
-    "subtitle": "Rank 1 = highest annual tree-cover loss. Compares the first and latest years available: 2001 and 2024."
+    "subtitle": "Rank 1 = highest annual tree-cover loss; highlighted lines show the largest shifts from 2001 to 2024."
   },
   "width": "container",
   "height": 500,
@@ -62,9 +62,7 @@
               "#c8cfca"
             ]
           },
-          "legend": {
-            "title": "Biggest rank changes"
-          }
+          "legend": null
         },
         "tooltip": [
           {
@@ -211,47 +209,6 @@
           "field": "state_label"
         }
       }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "year": 2024,
-            "rank": 4,
-            "note": "Kelantan moved up four ranks; Negeri Sembilan moved down four."
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": 700,
-        "align": "left",
-        "dx": 18,
-        "dy": -8,
-        "color": "#3a4540"
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "ordinal"
-        },
-        "y": {
-          "field": "rank",
-          "type": "quantitative",
-          "scale": {
-            "reverse": true,
-            "domain": [
-              16.5,
-              0.5
-            ]
-          }
-        },
-        "text": {
-          "field": "note"
-        }
-      }
     }
   ],
   "config": {
@@ -284,8 +241,12 @@
   },
   "padding": {
     "left": 150,
-    "right": 175,
+    "right": 135,
     "top": 10,
     "bottom": 35
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
   }
 }

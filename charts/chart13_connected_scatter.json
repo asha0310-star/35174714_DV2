@@ -234,5 +234,9 @@
     "right": 140,
     "top": 10,
     "bottom": 45
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
   }
 }

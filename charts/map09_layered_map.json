@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Where palm oil output and forest loss overlap",
-    "subtitle": "Orange choropleth = 2001–2024 forest loss; green circles = 2025 CPO production."
+    "subtitle": "Orange = 2001\u20132024 tree-cover loss; green circles = 2025 CPO production by region."
   },
   "width": "container",
-  "height": 320,
+  "height": 430,
   "autosize": {
     "type": "fit",
     "contains": "padding"
@@ -13,10 +13,10 @@
   "projection": {
     "type": "mercator",
     "center": [
-      111,
-      4
+      109.7,
+      3.9
     ],
-    "scale": 1900
+    "scale": 2250
   },
   "layer": [
     {
@@ -50,8 +50,8 @@
       ],
       "mark": {
         "type": "geoshape",
-        "stroke": "white",
-        "strokeWidth": 1.2
+        "stroke": "#fffaf2",
+        "strokeWidth": 0.75
       },
       "encoding": {
         "color": {
@@ -59,15 +59,16 @@
           "type": "quantitative",
           "scale": {
             "scheme": "oranges",
-            "type": "quantize",
             "domain": [
               0,
-              3000
+              3400
             ]
           },
           "title": "Forest loss (000 ha)",
           "legend": {
-            "orient": "bottom"
+            "orient": "bottom",
+            "gradientLength": 300,
+            "title": "Forest loss (000 ha)"
           }
         },
         "tooltip": [
@@ -102,7 +103,7 @@
       "mark": {
         "type": "circle",
         "stroke": "#ffffff",
-        "strokeWidth": 2,
+        "strokeWidth": 1.6,
         "fillOpacity": 0.55,
         "fill": "#1f3d2f"
       },
@@ -126,19 +127,11 @@
               12000000
             ],
             "range": [
-              80,
-              1500
+              100,
+              1800
             ]
           },
-          "legend": {
-            "orient": "bottom",
-            "values": [
-              4000000,
-              8000000,
-              12000000
-            ],
-            "title": "CPO production (tonnes)"
-          }
+          "legend": null
         },
         "tooltip": [
           {
@@ -282,9 +275,9 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 12,
-        "fontWeight": "normal",
+        "fontWeight": 700,
         "dx": 0,
-        "dy": -8,
+        "dy": -10,
         "align": "center",
         "fill": "#ffffff"
       },
@@ -309,111 +302,6 @@
         },
         "strokeWidth": {
           "value": 1
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "note": "Sabah: largest producer",
-            "lat": 6.4,
-            "lon": 116.4
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontStyle": "italic",
-        "align": "left",
-        "dx": 6,
-        "dy": -6,
-        "color": "#1f2421"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "note",
-          "type": "nominal"
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "note": "East Malaysia concentration",
-            "lat": 4.4,
-            "lon": 114.1
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "align": "left",
-        "dx": 6,
-        "dy": -6,
-        "color": "#1f2421"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "note",
-          "type": "nominal"
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "note": "Sarawak: high loss and production",
-            "lat": 2.9,
-            "lon": 112.5
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontStyle": "normal",
-        "align": "left",
-        "dx": 6,
-        "dy": -6,
-        "color": "#1f2421"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "note",
-          "type": "nominal"
         }
       }
     }
@@ -458,9 +346,9 @@
     }
   },
   "padding": {
-    "top": 16,
-    "right": 40,
-    "bottom": 20,
+    "top": 18,
+    "right": 28,
+    "bottom": 30,
     "left": 10
   }
 }

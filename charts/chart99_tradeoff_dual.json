@@ -1,10 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Economic Gain vs Environmental Bill",
+    "text": "Exports and forest pressure moved in different directions",
     "subtitle": [
-      "Malaysia, 2001–2024: export earnings above zero; tree-cover loss below zero.",
-      "Units: exports = RM bn; forest loss = kha ÷ 5 for direction, not equivalence."
+      "Orange bars rise above zero for export value; green bars are visually flipped downward for separation.",
+      "Downward bars do not mean negative forest loss; tooltips show real positive loss."
     ],
     "anchor": "start"
   },
@@ -82,12 +82,13 @@
         "y": {
           "field": "exports",
           "type": "quantitative",
-          "title": null,
+          "title": "Up: exports (RM bn) \u00b7 Down: forest loss (kha, flipped \u00f75)",
           "axis": {
-            "labelExpr": "datum.value >= 0 ? format(datum.value, '.0f') : '−' + format(-datum.value * 5, '.0f')",
+            "labelExpr": "datum.value >= 0 ? format(datum.value, '.0f') : format(-datum.value * 5, '.0f')",
             "grid": true,
             "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
+            "labelColor": "#3a4540",
+            "titlePadding": 14
           },
           "scale": {
             "domain": [
@@ -130,7 +131,8 @@
       "encoding": {
         "y": {
           "field": "loss_neg",
-          "type": "quantitative"
+          "type": "quantitative",
+          "title": null
         },
         "tooltip": [
           {
@@ -151,6 +153,40 @@
             "title": "Exports (RM bn)"
           }
         ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": "2004",
+            "y": -136,
+            "label": "Green bars are flipped down\nfor visual separation only"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "lineBreak": "\n",
+        "color": "#2d5a3d"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
       }
     },
     {
@@ -189,8 +225,10 @@
           "axis": {
             "gridColor": "#eeeeee",
             "labelColor": "#3a4540",
-            "labelExpr": "datum.value >= 0 ? format(datum.value, '.0f') : '−' + format(-datum.value * 5, '.0f')"
-          }
+            "labelExpr": "datum.value >= 0 ? format(datum.value, '.0f') : format(-datum.value * 5, '.0f')",
+            "titlePadding": 14
+          },
+          "title": "Up: exports (RM bn) \u00b7 Down: forest loss (kha, flipped \u00f75)"
         },
         "order": {
           "field": "order",

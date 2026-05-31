@@ -66,7 +66,7 @@
     </header>
 
     <section id="sec-global" aria-labelledby="global-title">
-      <h2 id="global-title">A Crop That Conquered the World</h2>
+      <h2 id="global-title">Malaysia grew fast, but Indonesia grew faster</h2>
       <p class="lede">
         Palm oil became the world's dominant vegetable oil in just six
         decades. Malaysia helped drive that boom, but the crop also pushed
@@ -76,11 +76,10 @@
       </p>
       <p>
         The first chart shows how Malaysia and Indonesia separated from the
-        rest of the world. The bar chart ranks major crude palm oil producers
-        by year, while the line chart shows Malaysia's shrinking share in the
-        longer Our World in Data series. Malaysia's share peaked at about 57%
-        in 1982 and had fallen to about 23% by 2023, even as its own output
-        kept rising.
+        rest of the world. The producer ranking then gives a recent snapshot:
+        Malaysia remains a major producer, but Indonesia now dominates the
+        global market. The point is not that Malaysia stopped growing, but that
+        regional competition grew faster.
       </p>
 
       <div class="chart-card wide">
@@ -94,19 +93,13 @@
           Oil</a>.
       </p>
 
-      <div class="two-col">
-        <div class="chart-card">
-          <div id="chart03" role="img"
-            aria-label="Interactive bar chart ranking crude palm oil producers from 2014 to 2024."></div>
-        </div>
-        <div class="chart-card">
-          <div id="chart04" role="img"
-            aria-label="Line chart showing Malaysia's share of world palm oil production from 1961 to 2023."></div>
-        </div>
+      <div class="chart-card">
+        <div id="chart03" role="img"
+          aria-label="Interactive bar chart ranking crude palm oil producers from 2014 to 2024."></div>
       </div>
       <p class="caption">
-        Move the producer-ranking slider; the marker on Malaysia's share line
-        follows the same year.
+        Move the producer-ranking slider to compare recent years. The global
+        context chart above updates its year marker to match the selected year.
       </p>
 
       <p>
@@ -120,7 +113,7 @@
     </section>
 
     <section id="sec-land" aria-labelledby="land-title">
-      <h2 id="land-title">From a Few Estates to Millions of Hectares</h2>
+      <h2 id="land-title">Malaysia now gets more output from land that has stopped expanding</h2>
       <p class="lede">
         In 1961, Malaysia had fewer than 55,000 hectares of oil palm. By 2025,
         MPOB reported 5.70 million hectares planted with oil palm. Most of the
@@ -128,16 +121,6 @@
         question is where that land came from.
       </p>
 
-      <div class="chart-card">
-        <div id="chart05" role="img"
-          aria-label="Slope chart comparing oil palm harvested area in 1961 and 2023 by country."></div>
-      </div>
-      <p class="caption">
-        Indonesia’s harvested oil-palm area now exceeds Malaysia’s, and this
-        chart now shows only actual countries rather than income-group
-        aggregates. Data source:
-        <a href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer">Our World in Data</a>.
-      </p>
 
       <div class="chart-card">
         <div id="chart06" role="img"
@@ -176,21 +159,10 @@
         repository.
       </p>
 
-      <div class="chart-card">
-        <div id="chart07" role="img"
-          aria-label="Dumbbell chart comparing 2025 planted-area share and crude palm oil output share across Malaysian regions.">
-        </div>
-      </div>
-      <p class="caption">
-        Peninsular Malaysia produces a larger share of CPO than its planted-area
-        share, showing higher output per hectare than East Malaysia. Data source:
-        <a href="https://bepi.mpob.gov.my/images/overview/Overview2025.pdf" target="_blank"
-          rel="noopener noreferrer">MPOB 2025 Overview</a>.
-      </p>
     </section>
 
     <section id="sec-tradeoff" class="centrepiece-section" aria-labelledby="tradeoff-title">
-      <h2 id="tradeoff-title">The trade-off is not a straight line</h2>
+      <h2 id="tradeoff-title">Palm expansion and forest loss overlap, then start to diverge</h2>
       <p class="lede centrepiece-lede">
         Malaysia's oil-palm footprint expanded steadily, but annual
         tree-cover loss did not rise in a simple one-for-one pattern. The
@@ -238,6 +210,34 @@
         <a href="https://www.globalforestwatch.org/" target="_blank" rel="noopener noreferrer">Global Forest Watch</a>
         tree-cover loss.
       </p>
+
+      <h3>States reveal the trade-off more clearly than the national average</h3>
+      <p>
+        A national line can hide geography. The quadrant chart compares each
+        state using its 2025 oil-palm planted area and total tree-cover loss
+        since 2001. The average lines split the chart into four simple zones so
+        readers can see which places carry both economic production and forest
+        pressure.
+      </p>
+      <div class="chart-card wide">
+        <div id="chart18" role="img"
+          aria-label="Quadrant scatter plot of Malaysian states comparing 2025 oil palm planted area with total tree-cover loss from 2001 to 2024."></div>
+      </div>
+      <div class="insight-callout compact">
+        <h3>Takeaway</h3>
+        <p>
+          Sabah and Sarawak sit above both averages, meaning they combine large
+          oil-palm footprints with the largest tree-cover losses. Pahang is the
+          main Peninsular state in the high-loss area, while many smaller states
+          sit in the low-palm, low-loss quadrant.
+        </p>
+      </div>
+      <p class="caption centrepiece-caption">
+        The state quadrant uses a new small derived file generated by
+        <code>wrangle.py</code> from MPOB 2025 state planted-area figures and
+        existing GFW state totals. Federal territories without MPOB oil-palm
+        planted-area rows are not included in this state palm comparison.
+      </p>
     </section>
 
     <section id="sec-forest" aria-labelledby="forest-title">
@@ -268,9 +268,12 @@
       </div>
       <p class="caption">
         Sarawak and Sabah carry the largest absolute tree-cover losses, making
-        East Malaysia the forest-pressure centre of the story. Data source:
-        Global Forest Watch, 2001–2024; darker orange means higher cumulative
-        loss in hectares, not a per-hectare rate.
+        East Malaysia the forest-pressure centre of the story. <strong>Map method:</strong>
+        the maps use a Mercator projection so regional Malaysia remains familiar
+        and location comparisons are easy to read. The map is used to locate
+        state-level patterns, not to compare physical land area. Data source: Global Forest
+        Watch, 2001–2024; darker orange means higher cumulative loss in hectares,
+        not a per-hectare rate.
       </p>
 
       <h3>B. Where is forest loss most intense relative to forest area?</h3>
@@ -323,13 +326,33 @@
       </div>
       <p class="caption">
         Export earnings and forest loss move on different scales: orange bars show
-        palm-oil export value in RM billions above zero, while green bars show
-        annual tree-cover loss in thousand hectares below zero after rescaling
-        for visual direction only. Data sources: MPOB Annual Overview reports
-        and Global Forest Watch.
+        palm-oil export value in RM billions above zero, while downward green
+        bars are visually flipped to separate environmental pressure from export
+        value; they do not represent negative forest loss. Tooltips show the real
+        positive tree-cover-loss values. Data sources: MPOB Annual Overview
+        reports and Global Forest Watch.
       </p>
 
-      <h3>State-by-state pattern</h3>
+      <h3>Some states changed rank, but East Malaysia stayed dominant</h3>
+      <p>
+        The heatmap shows the whole time pattern, but rankings make a different
+        question easier: which states moved up or down between the start and the
+        latest year? The slopegraph compares 2001 with 2024 and labels every
+        state directly to reduce legend reading.
+      </p>
+      <div class="chart-card wide">
+        <div id="chart19" role="img"
+          aria-label="Slopegraph comparing Malaysian state tree-cover loss rankings in 2001 and 2024."></div>
+      </div>
+      <p class="caption">
+        Rank 1 means the highest annual tree-cover loss in that year. Kelantan
+        moved up four ranks by 2024, while Negeri Sembilan moved down four;
+        Selangor and Kedah also changed noticeably. Sarawak and Sabah remained
+        the top two loss states. Data source: Global Forest Watch annual
+        tree-cover loss by state.
+      </p>
+
+      <h3>Annual loss hotspots were strongest in the 2010s</h3>
       <div class="chart-card wide">
         <div id="chart10" role="img"
           aria-label="Heatmap of annual tree-cover loss by Malaysian state and year from 2001 to 2024."></div>
@@ -356,7 +379,7 @@
     </section>
 
     <section id="sec-trade" aria-labelledby="trade-title">
-      <h2 id="trade-title">Where the Oil Goes</h2>
+      <h2 id="trade-title">Export demand keeps the pressure on existing estates</h2>
       <p class="lede">
         In 2025, Malaysia exported 15.27 million tonnes of palm oil worth
         RM71.63 billion. Palm oil remains a cornerstone of the national
@@ -372,25 +395,17 @@
       </div>
       <p class="caption">
         Seven import markets account for just over half of Malaysia's palm oil
-        exports, with India clearly the largest single buyer. Data source:
+        exports, with India clearly the largest single buyer. The flow idiom
+        replaces a duplicate ranked bar chart so the export section stays
+        compact and presentation-focused. Data source:
         <a href="https://bepi.mpob.gov.my/images/overview/Overview2025.pdf" target="_blank"
           rel="noopener noreferrer">MPOB 2025 Overview</a>.
       </p>
 
-      <div class="chart-card">
-        <div id="chart15" role="img"
-          aria-label="Ranked lollipop chart of Malaysia's top palm oil export destinations in 2025."></div>
-      </div>
-      <p class="caption">
-        India, Kenya, the European Union, China, Türkiye, the Philippines, and
-        Japan buy 7.86 million tonnes combined, or 51.5% of Malaysia's palm oil
-        exports. Data source: MPOB 2025 Overview, using the cleaned
-        top_importers_2025.csv file in this repository.
-      </p>
     </section>
 
     <section class="closing" aria-labelledby="closing-title">
-      <h2 id="closing-title">What Comes Next</h2>
+      <h2 id="closing-title">The next gains need to come from yield, not new clearing</h2>
       <p>
         Malaysia's palm oil boom has created jobs, export revenue, and rural
         development. It has also contributed to severe forest pressure in the
@@ -447,6 +462,10 @@
         chart design choices, story structure, and final code are the author's
         own work.
       </p>
+      <p>
+        <strong>Repository:</strong>
+        <a href="https://github.com/asha0310-star/35174714_DV2" target="_blank" rel="noopener noreferrer">GitHub source code</a>.
+      </p>
     </footer>
   </main>
 
@@ -465,14 +484,6 @@
       "#chart03",
       "charts/chart03_top_producers.json",
     );
-    const p04 = embedIfExists(
-      "#chart04",
-      "charts/chart04_malaysia_share_line.json",
-    );
-    const p05 = embedIfExists(
-      "#chart05",
-      "charts/chart05_slope_landuse.json",
-    );
     const p06 = embedIfExists(
       "#chart06",
       "charts/chart06_efficiency_metric.json",
@@ -480,10 +491,6 @@
     const p17 = embedIfExists(
       "#chart17",
       "charts/chart17_indexed_production_area.json",
-    );
-    const p07 = embedIfExists(
-      "#chart07",
-      "charts/chart07_state_stacked_area.json",
     );
     const p08 = embedIfExists(
       "#map08",
@@ -497,7 +504,8 @@
     const p10 = embedIfExists("#chart10", "charts/chart10_heatmap.json");
     const p11 = embedIfExists("#chart11", "charts/chart11_annual_loss.json");
     const p12 = embedIfExists("#chart12", "charts/chart12_flow_diagram.json");
-    const p15 = embedIfExists("#chart15", "charts/chart15_importer_rank.json");
+    const p18 = embedIfExists("#chart18", "charts/chart18_state_tradeoff_quadrant.json");
+    const p19 = embedIfExists("#chart19", "charts/chart19_state_ranking_slopegraph.json");
     const p13 = embedIfExists(
       "#chart13",
       "charts/chart13_connected_scatter.json",
@@ -511,24 +519,19 @@
       "charts/chart99_tradeoff_dual.json",
     );
 
-    Promise.allSettled([p02, p03, p04]).then((results) => {
+    Promise.allSettled([p02, p03]).then((results) => {
       const res02 =
         results[0].status === "fulfilled" ? results[0].value : null;
       const res03 =
         results[1].status === "fulfilled" ? results[1].value : null;
-      const res04 =
-        results[2].status === "fulfilled" ? results[2].value : null;
-      if (!res02 || !res03 || !res04) return;
+      if (!res02 || !res03) return;
 
       const chart02View = res02.view;
       const chart03View = res03.view;
-      const chart04View = res04.view;
       const syncYear = (value) => {
         if (!chart02View || typeof chart02View.signal !== "function") return;
-        if (!chart04View || typeof chart04View.signal !== "function") return;
         const boundedYear = Math.min(Number(value) || 2023, 2023);
         chart02View.signal("year_link", boundedYear).runAsync();
-        chart04View.signal("year_link", boundedYear).runAsync();
       };
 
       try {

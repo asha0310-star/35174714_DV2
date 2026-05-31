@@ -2,17 +2,17 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Forest loss has not been spread evenly",
-    "subtitle": "Total tree-cover loss by state, 2001–2024 — absolute loss, not area-normalised."
+    "subtitle": "Total tree-cover loss by state, 2001\u20132024 (absolute hectares; not area-normalised)."
   },
   "width": "container",
-  "height": 380,
+  "height": 440,
   "projection": {
     "type": "mercator",
     "center": [
-      109,
-      4
+      109.6,
+      3.9
     ],
-    "scale": 1900
+    "scale": 2300
   },
   "layer": [
     {
@@ -50,20 +50,25 @@
       ],
       "mark": {
         "type": "geoshape",
-        "stroke": "white",
-        "strokeWidth": 0.6
+        "stroke": "#fffaf2",
+        "strokeWidth": 0.75
       },
       "encoding": {
         "color": {
           "field": "loss_kha",
           "type": "quantitative",
           "scale": {
-            "scheme": "oranges"
+            "scheme": "oranges",
+            "domain": [
+              0,
+              3400
+            ]
           },
           "title": "Loss (000 ha)",
           "legend": {
             "orient": "bottom",
-            "gradientLength": 280
+            "gradientLength": 320,
+            "title": "Loss (000 ha)"
           }
         },
         "tooltip": [
@@ -204,42 +209,6 @@
           "value": 2
         }
       }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "note": "East Malaysia: ~5.0M ha of 9.5M total",
-            "lat": 3.9,
-            "lon": 112.0
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 11,
-        "fontStyle": "italic",
-        "align": "left",
-        "dx": 6,
-        "dy": -6,
-        "color": "#1f2421",
-        "fontWeight": 700
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "note",
-          "type": "nominal"
-        }
-      }
     }
   ],
   "config": {
@@ -285,9 +254,9 @@
     "contains": "padding"
   },
   "padding": {
-    "top": 16,
-    "right": 30,
-    "bottom": 20,
+    "top": 18,
+    "right": 24,
+    "bottom": 28,
     "left": 10
   }
 }

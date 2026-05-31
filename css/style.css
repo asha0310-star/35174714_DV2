@@ -6,7 +6,7 @@
 }
 
 html {
-  overflow-x: clip;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -41,7 +41,7 @@ body {
   line-height: 1.65;
   color: var(--ink);
   background: var(--page-bg);
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 h1,
@@ -286,7 +286,7 @@ section {
   padding: 2.5rem;
   margin: 2.5rem 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .chart-card.wide {
@@ -304,7 +304,7 @@ section {
   min-width: 0;
   min-height: 220px;
   flex: 1 1 auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .chart-card.wide>div {
@@ -313,6 +313,11 @@ section {
 
 .chart-card.hero>div {
   min-height: 380px;
+}
+
+#map08,
+#map09 {
+  min-height: 430px;
 }
 
 .chart-card>div .vega-embed,
@@ -325,12 +330,12 @@ section {
 .chart-card>div .vega-embed,
 .chart-card>div .vega-embed>div {
   width: 100%;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .chart-card>div .vega-embed>svg {
   height: auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .vega-embed .mark-text text,
@@ -587,6 +592,11 @@ footer a:focus-visible {
     min-height: 420px;
   }
 
+  #map08,
+  #map09 {
+    min-height: 360px;
+  }
+
   .container>section.closing {
     margin: 3rem -1.5rem 0;
     padding: 2.5rem 1.5rem;
@@ -676,4 +686,16 @@ footer a:focus-visible {
   footer {
     margin-top: 1.5rem;
   }
+}
+.insight-callout.compact {
+  margin-top: 1rem;
+  margin-left: 0;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+  background: #f0f4f1;
+  padding: 0.1rem 0.25rem;
+  border-radius: 3px;
 }

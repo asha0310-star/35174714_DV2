@@ -180,7 +180,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 11,
-        "fontWeight": 700,
+        "fontWeight": 500,
         "dx": 0,
         "dy": -8,
         "align": "center",

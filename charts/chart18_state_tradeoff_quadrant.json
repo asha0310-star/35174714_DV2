@@ -214,12 +214,77 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": 700,
+        "fontSize": 11,
+        "fontWeight": 600,
         "align": "left",
         "baseline": "middle",
-        "dx": 10,
+        "dx": 8,
+        "dy": 0,
         "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "planted_area_Mha",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "total_loss_kha",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "state_label"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "!datum.label_flag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 8,
+        "fontWeight": 500,
+        "align": "center",
+        "baseline": "top",
+        "dx": -6,
+        "dy": 8,
+        "color": "#3a4540",
+        "opacity": 0.7
+      },
+      "encoding": {
+        "x": {
+          "field": "planted_area_Mha",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "total_loss_kha",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "state_label"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "!datum.label_flag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 8,
+        "fontWeight": 500,
+        "align": "center",
+        "baseline": "bottom",
+        "dx": 6,
+        "dy": -8,
+        "color": "#3a4540",
+        "opacity": 0.7
       },
       "encoding": {
         "x": {

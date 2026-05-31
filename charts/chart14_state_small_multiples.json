@@ -166,18 +166,19 @@
             "filter": "datum.state_peak >= 10"
           },
           {
-            "calculate": "'peak ' + format(datum.loss_kha, '.0f')",
+            "calculate": "format(datum.loss_kha, '.0f')",
             "as": "peak_label"
           }
         ],
         "mark": {
           "type": "text",
-          "fontSize": 9,
+          "fontSize": 8,
           "font": "Inter",
-          "dy": -8,
-          "dx": 4,
+          "dy": -10,
+          "dx": 0,
           "color": "#1f2421",
-          "fontWeight": 700
+          "fontWeight": 600,
+          "align": "center"
         },
         "encoding": {
           "x": {

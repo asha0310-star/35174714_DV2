@@ -76,11 +76,10 @@
       </p>
       <p>
         The first chart shows how Malaysia and Indonesia separated from the
-        rest of the world. The bar chart ranks major crude palm oil producers
-        by year, while the line chart shows Malaysia's shrinking share in the
-        longer Our World in Data series. Malaysia's share peaked at about 57%
-        in 1982 and had fallen to about 23% by 2023, even as its own output
-        kept rising.
+        rest of the world. The producer ranking then gives a recent snapshot:
+        Malaysia remains a major producer, but Indonesia now dominates the
+        global market. The point is not that Malaysia stopped growing, but that
+        regional competition grew faster.
       </p>
 
       <div class="chart-card wide">
@@ -94,19 +93,13 @@
           Oil</a>.
       </p>
 
-      <div class="two-col">
-        <div class="chart-card">
-          <div id="chart03" role="img"
-            aria-label="Interactive bar chart ranking crude palm oil producers from 2014 to 2024."></div>
-        </div>
-        <div class="chart-card">
-          <div id="chart04" role="img"
-            aria-label="Line chart showing Malaysia's share of world palm oil production from 1961 to 2023."></div>
-        </div>
+      <div class="chart-card">
+        <div id="chart03" role="img"
+          aria-label="Interactive bar chart ranking crude palm oil producers from 2014 to 2024."></div>
       </div>
       <p class="caption">
-        Move the producer-ranking slider; the marker on Malaysia's share line
-        follows the same year.
+        Move the producer-ranking slider to compare recent years. The global
+        context chart above updates its year marker to match the selected year.
       </p>
 
       <p>
@@ -128,16 +121,6 @@
         question is where that land came from.
       </p>
 
-      <div class="chart-card">
-        <div id="chart05" role="img"
-          aria-label="Slope chart comparing oil palm harvested area in 1961 and 2023 by country."></div>
-      </div>
-      <p class="caption">
-        Indonesia’s harvested oil-palm area now exceeds Malaysia’s, and this
-        chart now shows only actual countries rather than income-group
-        aggregates. Data source:
-        <a href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer">Our World in Data</a>.
-      </p>
 
       <div class="chart-card">
         <div id="chart06" role="img"
@@ -176,17 +159,6 @@
         repository.
       </p>
 
-      <div class="chart-card">
-        <div id="chart07" role="img"
-          aria-label="Dumbbell chart comparing 2025 planted-area share and crude palm oil output share across Malaysian regions.">
-        </div>
-      </div>
-      <p class="caption">
-        Peninsular Malaysia produces a larger share of CPO than its planted-area
-        share, showing higher output per hectare than East Malaysia. Data source:
-        <a href="https://bepi.mpob.gov.my/images/overview/Overview2025.pdf" target="_blank"
-          rel="noopener noreferrer">MPOB 2025 Overview</a>.
-      </p>
     </section>
 
     <section id="sec-tradeoff" class="centrepiece-section" aria-labelledby="tradeoff-title">
@@ -423,21 +395,13 @@
       </div>
       <p class="caption">
         Seven import markets account for just over half of Malaysia's palm oil
-        exports, with India clearly the largest single buyer. Data source:
+        exports, with India clearly the largest single buyer. The flow idiom
+        replaces a duplicate ranked bar chart so the export section stays
+        compact and presentation-focused. Data source:
         <a href="https://bepi.mpob.gov.my/images/overview/Overview2025.pdf" target="_blank"
           rel="noopener noreferrer">MPOB 2025 Overview</a>.
       </p>
 
-      <div class="chart-card">
-        <div id="chart15" role="img"
-          aria-label="Ranked lollipop chart of Malaysia's top palm oil export destinations in 2025."></div>
-      </div>
-      <p class="caption">
-        India, Kenya, the European Union, China, Türkiye, the Philippines, and
-        Japan buy 7.86 million tonnes combined, or 51.5% of Malaysia's palm oil
-        exports. Data source: MPOB 2025 Overview, using the cleaned
-        top_importers_2025.csv file in this repository.
-      </p>
     </section>
 
     <section class="closing" aria-labelledby="closing-title">
@@ -520,14 +484,6 @@
       "#chart03",
       "charts/chart03_top_producers.json",
     );
-    const p04 = embedIfExists(
-      "#chart04",
-      "charts/chart04_malaysia_share_line.json",
-    );
-    const p05 = embedIfExists(
-      "#chart05",
-      "charts/chart05_slope_landuse.json",
-    );
     const p06 = embedIfExists(
       "#chart06",
       "charts/chart06_efficiency_metric.json",
@@ -535,10 +491,6 @@
     const p17 = embedIfExists(
       "#chart17",
       "charts/chart17_indexed_production_area.json",
-    );
-    const p07 = embedIfExists(
-      "#chart07",
-      "charts/chart07_state_stacked_area.json",
     );
     const p08 = embedIfExists(
       "#map08",
@@ -552,7 +504,6 @@
     const p10 = embedIfExists("#chart10", "charts/chart10_heatmap.json");
     const p11 = embedIfExists("#chart11", "charts/chart11_annual_loss.json");
     const p12 = embedIfExists("#chart12", "charts/chart12_flow_diagram.json");
-    const p15 = embedIfExists("#chart15", "charts/chart15_importer_rank.json");
     const p18 = embedIfExists("#chart18", "charts/chart18_state_tradeoff_quadrant.json");
     const p19 = embedIfExists("#chart19", "charts/chart19_state_ranking_slopegraph.json");
     const p13 = embedIfExists(
@@ -568,24 +519,19 @@
       "charts/chart99_tradeoff_dual.json",
     );
 
-    Promise.allSettled([p02, p03, p04]).then((results) => {
+    Promise.allSettled([p02, p03]).then((results) => {
       const res02 =
         results[0].status === "fulfilled" ? results[0].value : null;
       const res03 =
         results[1].status === "fulfilled" ? results[1].value : null;
-      const res04 =
-        results[2].status === "fulfilled" ? results[2].value : null;
-      if (!res02 || !res03 || !res04) return;
+      if (!res02 || !res03) return;
 
       const chart02View = res02.view;
       const chart03View = res03.view;
-      const chart04View = res04.view;
       const syncYear = (value) => {
         if (!chart02View || typeof chart02View.signal !== "function") return;
-        if (!chart04View || typeof chart04View.signal !== "function") return;
         const boundedYear = Math.min(Number(value) || 2023, 2023);
         chart02View.signal("year_link", boundedYear).runAsync();
-        chart04View.signal("year_link", boundedYear).runAsync();
       };
 
       try {

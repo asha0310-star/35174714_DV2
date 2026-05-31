@@ -1,6 +1,6 @@
 # Forests for Palm Oil — Malaysia's Trade-Off
 
-FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story explains how Malaysia's palm oil economy connects to land expansion, tree-cover loss, and export demand.
+FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story explains how Malaysia's palm oil economy connects to land expansion, tree-cover loss, and export demand. Live site: <https://asha0310-star.github.io/35174714_DV2/>.
 
 ## Domain, audience, and purpose
 
@@ -8,16 +8,28 @@ FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story 
 - **Audience:** A general Malaysian audience with no specialist statistics background.
 - **Why:** Palm oil is economically important, but its landscape cost is uneven and difficult to understand from separate industry and forest datasets.
 - **What:** The page combines palm oil production, planted-area, export, import-destination, and tree-cover-loss data.
-- **How:** The story uses Munzer's What/Why/How framing through time-series charts, ranked bars, custom flow diagrams, a derived efficiency metric, a dual-direction trade-off chart, small multiples, and geographic maps.
+- **How:** The story uses Munzer's What/Why/How framing through 15 presentation-focused Vega-Lite charts: annotated time series, a connected scatter plot, geographic maps, a state quadrant chart, a slopegraph, a heatmap, small multiples, a flow idiom, and a dual-direction trade-off chart.
 
 ## Assignment checklist
 
 - Single scrollable web page: `index.html`.
 - Vega-Lite JSON specifications are human-readable in `charts/`.
-- Includes more than ten charts/diagrams, including two geographic maps.
+- Final page includes **15** charts/diagrams, including two geographic maps.
 - Total cleaned data plus chart specs is small enough for GitHub Pages loading.
 - Uses multiple independent sources: Our World in Data, MPOB, and Global Forest Watch.
 - AI use and data caveats are acknowledged in the page footer.
+- Public GitHub Pages URL: <https://asha0310-star.github.io/35174714_DV2/>.
+
+## Final chart set and removals
+
+The final webpage keeps 15 charts: global production lines, recent producer ranking, efficiency metric, indexed production/area trend, connected scatter, state quadrant, choropleth map, loss-intensity dot plot, layered map, dual trade-off chart, state ranking slopegraph, state-year heatmap, national forest-loss line, state small multiples, and export flow diagram.
+
+Removed from the final page to reduce repetition and label/legend crowding:
+
+- `chart04_malaysia_share_line.json` — repeated the global-market message already covered by the global production chart and recent producer ranking.
+- `chart05_slope_landuse.json` — useful context, but less central than the Malaysia production/area and forest-pressure charts.
+- `chart07_state_stacked_area.json` — regional production/area comparison is now better handled by the layered map and state quadrant.
+- `chart15_importer_rank.json` — duplicated the top-importer message shown more distinctively by the Vega-Lite flow diagram.
 
 ## Data sources
 
@@ -33,7 +45,7 @@ FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story 
 
 - Global Forest Watch tree-cover loss is not identical to permanent deforestation. It can include timber harvest and plantation rotations.
 - The project uses tree-cover loss and palm oil production together to show overlap and timing, not exact hectare-by-hectare causality.
-- OWID's long-run production series currently ends at 2023, while MPOB industry data in this repository includes 2025 values. The linked global-share chart therefore caps its selected-year marker at 2023.
+- OWID's long-run production series currently ends at 2023, while MPOB industry data in this repository includes 2025 values. Linked global context therefore caps selected-year markers at 2023 where the OWID series ends.
 - MPOB PDF values that are not provided as machine-readable CSV are typed into `wrangle.py` with comments and mirrored in the small cleaned CSV files.
 - `data/state_tradeoff_2025.csv` is derived by joining MPOB 2025 state planted-area values with existing GFW state tree-cover-loss totals. Federal territories without MPOB oil-palm planted-area rows are excluded from this palm-state comparison.
 - `data/state_loss_rank_change.csv` is derived from `data/forest_loss_by_state_long.csv` by ranking each state in the earliest and latest available years (2001 and 2024).
@@ -45,10 +57,11 @@ FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story 
 - Added a state ranking slopegraph comparing tree-cover-loss rankings in 2001 and 2024.
 - Reworked section headings, chart explanations, callouts, map-method note, and footer metadata to strengthen the single-scroll story and academic acknowledgement.
 - Improved responsive layout and typography while keeping all charts in Vega-Lite v5 JSON files and all downloadable derived datasets small.
+- Final QA pass reduced the public page from 19 to 15 charts by removing four repetitive/basic charts and keeping the strongest custom idioms.
 
 ## Hand-drawn sketch
 
-Add `sketch.pdf` before final submission. This file should be a real hand-drawn planning sketch that has been scanned or photographed and then linked/submitted through Moodle/GitHub; do not replace it with a digitally generated sketch.
+**Before submission, add a hand-drawn sketch as `sketch.pdf`.** This file is currently not present in the repository. It should be a real hand-drawn planning sketch that has been scanned or photographed and then linked/submitted through Moodle/GitHub; do not replace it with a digitally generated sketch.
 
 ## Run locally
 
@@ -80,6 +93,10 @@ raw/*               Original downloaded/source files used for reproducibility
 wrangle.py          Script that regenerates cleaned datasets
 requirements.txt    Python dependencies for wrangling
 ```
+
+## AI acknowledgement
+
+Generative AI tools (Claude and ChatGPT) were used for proofreading, draft Vega-Lite structures, and debugging assistance. All data selection, wrangling, chart design choices, story structure, and final code remain the author's own work.
 
 ## Authorship
 

@@ -1,0 +1,14 @@
+state,matured_area_ha,immature_area_ha,planted_area_ha,state_label,planted_area_Mha,total_loss_2001_2024,tree_cover_extent_2000,loss_intensity_pct,total_loss_kha,palm_share_pct,highlight,label_flag
+Johor,615836,59722,675558,Johor,0.676,805133,1593778,50.52,805.1,11.9,Other states,True
+Kedah,79319,8156,87475,Kedah,0.087,223859,676020,33.11,223.9,1.5,Other states,False
+Kelantan,135876,26214,162090,Kelantan,0.162,493867,1344069,36.74,493.9,2.8,Other states,False
+Melaka,45427,4057,49484,Melaka,0.049,67821,112675,60.19,67.8,0.9,Other states,False
+Negeri Sembilan,168973,13545,182518,Negeri Sembilan,0.183,285037,559821,50.92,285.0,3.2,Other states,False
+Pahang,653601,91844,745445,Pahang,0.745,1308437,3295418,39.7,1308.4,13.1,Other states,True
+Perak,327816,36058,363873,Perak,0.364,498023,1766052,28.2,498.0,6.4,Other states,False
+Perlis,759,168,927,Perlis,0.001,8089,27366,29.56,8.1,0.0,Other states,False
+Pulau Pinang,8012,181,8193,Pulau Pinang,0.008,12328,46680,26.41,12.3,0.1,Other states,False
+Selangor,96611,7744,104355,Selangor,0.104,182088,564554,32.25,182.1,1.8,Other states,False
+Trengganu,143593,20124,163717,Terengganu,0.164,313112,1106233,28.3,313.1,2.9,Other states,False
+Sabah,1267999,228559,1496558,Sabah,1.497,1965258,6698363,29.34,1965.3,26.3,Sabah,True
+Sarawak,1499656,160200,1659857,Sarawak,1.66,3347529,11643008,28.75,3347.5,29.1,Sarawak,True

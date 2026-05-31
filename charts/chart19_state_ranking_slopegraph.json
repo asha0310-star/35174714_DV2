@@ -1,0 +1,291 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "State loss rankings changed, but East Malaysia stayed at the top",
+    "subtitle": "Rank 1 = highest annual tree-cover loss. Compares the first and latest years available: 2001 and 2024."
+  },
+  "width": "container",
+  "height": 500,
+  "data": {
+    "url": "data/state_loss_rank_change.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2,
+        "opacity": 0.78
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "title": null,
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true,
+            "domain": [
+              16.5,
+              0.5
+            ]
+          },
+          "axis": {
+            "title": "Rank by annual tree-cover loss",
+            "tickMinStep": 1
+          }
+        },
+        "detail": {
+          "field": "state"
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Kelantan",
+              "Negeri Sembilan",
+              "Selangor",
+              "Kedah",
+              "Other states"
+            ],
+            "range": [
+              "#c25e1e",
+              "#5c8a6e",
+              "#8a5a2b",
+              "#7c3aed",
+              "#c8cfca"
+            ]
+          },
+          "legend": {
+            "title": "Biggest rank changes"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state_label",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "year",
+            "type": "quantitative",
+            "format": "d",
+            "title": "Year"
+          },
+          {
+            "field": "rank",
+            "type": "quantitative",
+            "format": "d",
+            "title": "Rank"
+          },
+          {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Loss (000 ha)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 80,
+        "stroke": "#ffffff",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true,
+            "domain": [
+              16.5,
+              0.5
+            ]
+          }
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Kelantan",
+              "Negeri Sembilan",
+              "Selangor",
+              "Kedah",
+              "Other states"
+            ],
+            "range": [
+              "#c25e1e",
+              "#5c8a6e",
+              "#8a5a2b",
+              "#7c3aed",
+              "#c8cfca"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2001"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "align": "right",
+        "baseline": "middle",
+        "dx": -9,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true,
+            "domain": [
+              16.5,
+              0.5
+            ]
+          }
+        },
+        "text": {
+          "field": "state_label"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2024"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 9,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true,
+            "domain": [
+              16.5,
+              0.5
+            ]
+          }
+        },
+        "text": {
+          "field": "state_label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2024,
+            "rank": 4,
+            "note": "Kelantan moved up four ranks; Negeri Sembilan moved down four."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "align": "left",
+        "dx": 18,
+        "dy": -8,
+        "color": "#3a4540"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true,
+            "domain": [
+              16.5,
+              0.5
+            ]
+          }
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Inter",
+    "axis": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "titleFontWeight": 600,
+      "titleColor": "#1f2421",
+      "labelColor": "#3a4540",
+      "gridColor": "#e8e6e1"
+    },
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 22,
+      "anchor": "start",
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "subtitleLineHeight": 18
+    }
+  },
+  "padding": {
+    "left": 150,
+    "right": 175,
+    "top": 10,
+    "bottom": 35
+  }
+}

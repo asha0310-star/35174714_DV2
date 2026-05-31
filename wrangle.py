@@ -120,6 +120,26 @@ REGIONAL_CPO_2025 = [
     ("Sarawak", 1659857, 4496339, 2.5, 113.5),
 ]
 
+# MPOB Oil Palm Planted Area 2025, state-level table (hectares).
+# Source: https://bepi.mpob.gov.my/images/area/2025/Area_summary2025.pdf
+STATE_PLANTED_AREA_2025 = [
+    ("Johor", 615836, 59722, 675558),
+    ("Kedah", 79319, 8156, 87475),
+    ("Kelantan", 135876, 26214, 162090),
+    ("Melaka", 45427, 4057, 49484),
+    ("Negeri Sembilan", 168973, 13545, 182518),
+    ("Pahang", 653601, 91844, 745445),
+    ("Perak", 327816, 36058, 363873),
+    ("Perlis", 759, 168, 927),
+    ("Pulau Pinang", 8012, 181, 8193),
+    ("Selangor", 96611, 7744, 104355),
+    ("Trengganu", 143593, 20124, 163717),
+    ("Sabah", 1267999, 228559, 1496558),
+    ("Sarawak", 1499656, 160200, 1659857),
+]
+
+STATE_DISPLAY_NAMES = {"Trengganu": "Terengganu"}
+
 TOP_IMPORTERS_2025 = [
     ("India", 2660000, 17.4, 2.66, 1),
     ("Kenya", 1210000, 7.9, 1.21, 2),
@@ -132,20 +152,34 @@ TOP_IMPORTERS_2025 = [
 
 
 def write_palm_production() -> None:
-    print("1/9 palm_production_long.csv")
+    print("1/10 palm_production_long.csv")
     df = pd.read_csv(PALM_OWID)
     df[df["Entity"].isin(PALM_ENTITIES)].to_csv(OUT / "palm_production_long.csv", index=False)
 
 
 def write_cpo_by_country() -> None:
-    print("2/9 cpo_by_country_long.csv")
+    print("2/10 cpo_by_country_long.csv")
     df = pd.read_csv(CPO_WIDE, skiprows=1)
     long = df.melt(id_vars="Period", var_name="Country", value_name="Production_kt")
-    long.dropna(subset=["Production_kt"]).to_csv(OUT / "cpo_by_country_long.csv", index=False)
+    long = long.dropna(subset=["Production_kt"]).copy()
+    long["Production_kt"] = pd.to_numeric(long["Production_kt"], errors="coerce")
+    long = long.dropna(subset=["Production_kt"])
+    world = (
+        long[long["Country"] == "World"][["Period", "Production_kt"]]
+        .rename(columns={"Production_kt": "World_kt"})
+    )
+    long = long.merge(world, on="Period", how="left")
+    long["Production_Mt"] = long["Production_kt"] / 1000
+    long["share_pct"] = long["Production_kt"] / long["World_kt"] * 100
+    long["Group"] = long["Country"].where(long["Country"].isin(["Malaysia", "Indonesia"]), "Other")
+    long["value_label"] = long.apply(
+        lambda row: f'{row["Production_Mt"]:.1f} Mt · {row["share_pct"]:.1f}%', axis=1
+    )
+    long.to_csv(OUT / "cpo_by_country_long.csv", index=False)
 
 
 def write_landuse_slope() -> None:
-    print("3/9 landuse_slope.csv")
+    print("3/10 landuse_slope.csv")
     df = pd.read_csv(LANDUSE)
     df = df[df["Year"].isin([1961, 2023])]
     real = df[~df["Code"].isin(AGGREGATE_CODES) & df["Code"].notna()]
@@ -159,7 +193,7 @@ def write_landuse_slope() -> None:
 
 
 def write_forest_loss() -> pd.DataFrame:
-    print("4/9 forest loss CSVs")
+    print("4/10 forest loss CSVs")
     gfw = pd.read_excel(GFW, sheet_name="Subnational 1 tree cover loss")
     gfw = gfw[gfw["threshold"] == 30].copy()
     year_cols = [c for c in gfw.columns if str(c).startswith("tc_loss_ha_")]
@@ -196,7 +230,7 @@ def write_forest_loss() -> pd.DataFrame:
 
 
 def write_area_loss_and_economy(forest_loss_long: pd.DataFrame) -> None:
-    print("5/9 area_vs_loss_yearly.csv and malaysia_economy_yearly.csv")
+    print("5/10 area_vs_loss_yearly.csv and malaysia_economy_yearly.csv")
     annual = (
         forest_loss_long.groupby("year", as_index=False)["tc_loss_ha"]
         .sum()
@@ -244,7 +278,7 @@ def write_area_loss_and_economy(forest_loss_long: pd.DataFrame) -> None:
 
 
 def write_malaysia_yearly() -> None:
-    print("6/9 malaysia_yearly.csv and production_area_index.csv")
+    print("6/10 malaysia_yearly.csv and production_area_index.csv")
     rows = [
         (year, CPO_PRODUCTION_MT[year], PLANTED_AREA_MHA[year])
         for year in range(2000, 2026)
@@ -265,11 +299,19 @@ def write_malaysia_yearly() -> None:
 
 
 def write_2025_tables() -> None:
-    print("7/9 MPOB 2025 tables")
+    print("7/10 MPOB 2025 tables")
     pd.DataFrame(
         REGIONAL_CPO_2025,
         columns=["region", "planted_area_ha", "cpo_production_t", "latitude", "longitude"],
     ).to_csv(OUT / "state_cpo_2025.csv", index=False)
+
+    pd.DataFrame(
+        STATE_PLANTED_AREA_2025,
+        columns=["state", "matured_area_ha", "immature_area_ha", "planted_area_ha"],
+    ).assign(
+        state_label=lambda df: df["state"].replace(STATE_DISPLAY_NAMES),
+        planted_area_Mha=lambda df: (df["planted_area_ha"] / 1_000_000).round(3),
+    ).to_csv(OUT / "state_planted_area_2025.csv", index=False)
 
     pd.DataFrame(
         [(c, t, s) for c, t, s, _v, _o in TOP_IMPORTERS_2025],
@@ -285,8 +327,38 @@ def write_2025_tables() -> None:
     )
 
 
+def write_state_tradeoff_and_rankings() -> None:
+    print("8/10 state_tradeoff_2025.csv and state_loss_rank_change.csv")
+    totals = pd.read_csv(OUT / "forest_loss_state_totals.csv")
+    intensity = pd.read_csv(OUT / "state_loss_intensity.csv")
+    palm = pd.read_csv(OUT / "state_planted_area_2025.csv")
+
+    tradeoff = palm.merge(totals, on="state", how="left").merge(
+        intensity[["state", "tree_cover_extent_2000", "loss_intensity_pct"]], on="state", how="left"
+    )
+    tradeoff["total_loss_kha"] = (tradeoff["total_loss_2001_2024"] / 1000).round(1)
+    tradeoff["palm_share_pct"] = (tradeoff["planted_area_ha"] / tradeoff["planted_area_ha"].sum() * 100).round(1)
+    tradeoff["highlight"] = tradeoff["state"].where(tradeoff["state"].isin(["Sabah", "Sarawak"]), "Other states")
+    tradeoff["label_flag"] = tradeoff["state"].isin(["Sabah", "Sarawak", "Pahang", "Johor"])
+    tradeoff.to_csv(OUT / "state_tradeoff_2025.csv", index=False)
+
+    long = pd.read_csv(OUT / "forest_loss_by_state_long.csv")
+    years = [int(long["year"].min()), int(long["year"].max())]
+    ranks = long[long["year"].isin(years)].copy()
+    ranks["rank"] = ranks.groupby("year")["tc_loss_ha"].rank(method="first", ascending=False).astype(int)
+    ranks["loss_kha"] = (ranks["tc_loss_ha"] / 1000).round(1)
+    wide = ranks.pivot(index="state", columns="year", values="rank")
+    ranks["rank_change"] = ranks["state"].map((wide[years[0]] - wide[years[1]]).abs())
+    ranks["highlight"] = ranks["state"].where(
+        ranks["state"].isin(wide.assign(delta=(wide[years[0]] - wide[years[1]]).abs()).nlargest(4, "delta").index),
+        "Other states",
+    )
+    ranks["state_label"] = ranks["state"].replace(STATE_DISPLAY_NAMES)
+    ranks.to_csv(OUT / "state_loss_rank_change.csv", index=False)
+
+
 def write_kpi() -> None:
-    print("8/9 malaysia_palmoil_kpi.csv")
+    print("9/10 malaysia_palmoil_kpi.csv")
     pd.DataFrame(
         MALAYSIA_KPI,
         columns=["year", "cpo_production_t", "planted_area_ha", "ffb_yield_t_ha", "avg_cpo_price_rm_t"],
@@ -301,8 +373,9 @@ def main() -> None:
     write_area_loss_and_economy(forest_loss_long)
     write_malaysia_yearly()
     write_2025_tables()
+    write_state_tradeoff_and_rankings()
     write_kpi()
-    print("9/9 done")
+    print("10/10 done")
 
 
 if __name__ == "__main__":

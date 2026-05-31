@@ -1,0 +1,466 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Where palm oil output and forest loss overlap",
+    "subtitle": "Orange choropleth = 2001–2024 forest loss; green circles = 2025 CPO production."
+  },
+  "width": "container",
+  "height": 320,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [
+      111,
+      4
+    ],
+    "scale": 1900
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/malaysia_states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "layer"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.NAME_1",
+          "from": {
+            "data": {
+              "url": "data/forest_loss_state_totals.csv"
+            },
+            "key": "state",
+            "fields": [
+              "total_loss_2001_2024"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.total_loss_2001_2024 / 1000",
+          "as": "loss_kha"
+        },
+        {
+          "filter": "isValid(datum.loss_kha)"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "color": {
+          "field": "loss_kha",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "oranges",
+            "type": "quantize",
+            "domain": [
+              0,
+              3000
+            ]
+          },
+          "title": "Forest loss (000 ha)",
+          "legend": {
+            "orient": "bottom"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "properties.NAME_1",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "format": ",.0f",
+            "title": "Loss (000 ha)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_cpo_2025.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum.cpo_production_t / 1000000",
+          "as": "cpo_production_Mt"
+        },
+        {
+          "calculate": "datum.planted_area_ha / 1000000",
+          "as": "planted_area_Mha"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "stroke": "#ffffff",
+        "strokeWidth": 2,
+        "fillOpacity": 0.55,
+        "fill": "#1f3d2f"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "cpo_production_t",
+          "type": "quantitative",
+          "title": "CPO production 2025 (tonnes)",
+          "scale": {
+            "type": "sqrt",
+            "domain": [
+              4000000,
+              12000000
+            ],
+            "range": [
+              80,
+              1500
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "values": [
+              4000000,
+              8000000,
+              12000000
+            ],
+            "title": "CPO production (tonnes)"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "region",
+            "type": "nominal",
+            "title": "Region"
+          },
+          {
+            "field": "cpo_production_Mt",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CPO (Mt)"
+          },
+          {
+            "field": "planted_area_Mha",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "Planted area (Mha)"
+          }
+        ],
+        "opacity": {
+          "condition": [
+            {
+              "param": "region_hover",
+              "empty": false,
+              "value": 0.95
+            },
+            {
+              "test": "length(data('region_hover_store')) == 0",
+              "value": 0.65
+            }
+          ],
+          "value": 0.35
+        },
+        "strokeWidth": {
+          "condition": {
+            "param": "region_hover",
+            "empty": false,
+            "value": 3
+          },
+          "value": 2
+        }
+      },
+      "params": [
+        {
+          "name": "region_hover",
+          "select": {
+            "type": "point",
+            "fields": [
+              "region"
+            ],
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 101.1,
+            "lat": 2.2,
+            "lon2": 102.5,
+            "lat2": 4.0
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#1f2421",
+        "strokeWidth": 1,
+        "opacity": 0.65
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "lon2"
+        },
+        "latitude2": {
+          "field": "lat2"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 101.0,
+            "lat": 2.1,
+            "label": "Peninsular"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "align": "right",
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Sabah",
+            "lat": 6.0,
+            "lon": 117.0
+          },
+          {
+            "label": "Sarawak",
+            "lat": 2.5,
+            "lon": 113.5
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "dx": 0,
+        "dy": -8,
+        "align": "center",
+        "fill": "#ffffff"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "stroke": {
+          "value": "#1f2421"
+        },
+        "strokeWidth": {
+          "value": 1
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "Sabah: largest producer",
+            "lat": 6.4,
+            "lon": 116.4
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "align": "left",
+        "dx": 6,
+        "dy": -6,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "note",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "East Malaysia concentration",
+            "lat": 4.4,
+            "lon": 114.1
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "align": "left",
+        "dx": 6,
+        "dy": -6,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "note",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "Sarawak: high loss and production",
+            "lat": 2.9,
+            "lon": 112.5
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontStyle": "normal",
+        "align": "left",
+        "dx": 6,
+        "dy": -6,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "note",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent",
+      "fill": "#f0f4f7"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleFontWeight": 500,
+      "titleColor": "#1f2421",
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "anchor": "start",
+      "subtitleLineHeight": 18
+    }
+  },
+  "padding": {
+    "top": 16,
+    "right": 40,
+    "bottom": 20,
+    "left": 10
+  }
+}

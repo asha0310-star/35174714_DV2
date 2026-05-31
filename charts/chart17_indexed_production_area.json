@@ -1,0 +1,554 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Production has grown faster than planted area",
+    "subtitle": "Indexed to 2001 = 100; compares output growth with planted-area growth without a dual axis.",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 360,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "padding": {
+    "right": 100,
+    "bottom": 34,
+    "top": 18,
+    "left": 8
+  },
+  "data": {
+    "url": "data/production_area_index.csv"
+  },
+  "transform": [
+    {
+      "fold": [
+        "production_index",
+        "area_index"
+      ],
+      "as": [
+        "metric_key",
+        "index_value"
+      ]
+    },
+    {
+      "calculate": "datum.metric_key == 'production_index' ? 'CPO production' : 'Planted area'",
+      "as": "metric"
+    },
+    {
+      "calculate": "datum.cpo_production_t / 1000000",
+      "as": "cpo_production_Mt"
+    },
+    {
+      "calculate": "datum.planted_area_ha / 1000000",
+      "as": "planted_area_Mha"
+    },
+    {
+      "calculate": "format(datum.index_value, '.0f')",
+      "as": "index_label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#6b7570",
+        "strokeDash": [
+          4,
+          4
+        ],
+        "opacity": 0.55
+      },
+      "encoding": {
+        "y": {
+          "datum": 100
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "format": "d",
+            "tickCount": 6,
+            "labelAngle": 0,
+            "labelOverlap": "greedy",
+            "labelColor": "#3a4540"
+          }
+        },
+        "y": {
+          "field": "index_value",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "domain": [
+              90,
+              180
+            ]
+          },
+          "axis": {
+            "grid": true,
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "color": {
+          "field": "metric",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "CPO production",
+              "Planted area"
+            ],
+            "range": [
+              "#c25e1e",
+              "#2d5a3d"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "quantitative",
+            "format": "d",
+            "title": "Year"
+          },
+          {
+            "field": "metric",
+            "type": "nominal",
+            "title": "Metric"
+          },
+          {
+            "field": "index_value",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Index (2001 = 100)"
+          },
+          {
+            "field": "cpo_production_Mt",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CPO production (Mt)"
+          },
+          {
+            "field": "planted_area_Mha",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "Planted area (Mha)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 65,
+        "stroke": "white",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "index_value",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "color": {
+          "field": "metric",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "CPO production",
+              "Planted area"
+            ],
+            "range": [
+              "#c25e1e",
+              "#2d5a3d"
+            ]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.year == 2001 || datum.year == 2025",
+            "value": 1
+          },
+          "value": 0
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2025"
+        },
+        {
+          "calculate": "datum.metric + ' ' + datum.index_label",
+          "as": "end_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 9,
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 700
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "index_value",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "text": {
+          "field": "end_label"
+        },
+        "color": {
+          "field": "metric",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "CPO production",
+              "Planted area"
+            ],
+            "range": [
+              "#c25e1e",
+              "#2d5a3d"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2025 && datum.metric_key == 'production_index'"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "#1f2421",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1.5,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "area_index",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "production_index",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2003,
+            "y": 113.14,
+            "x2": 2006,
+            "y2": 126
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#1f2421",
+        "strokeWidth": 1,
+        "opacity": 0.65
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "x2": {
+          "field": "x2",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "y2",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2006,
+            "y": 126,
+            "label": "Output first\noutpaces land\n2003"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "lineBreak": "\n",
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2025 && datum.metric_key == 'production_index'"
+        },
+        {
+          "calculate": "'2025 gap: output ' + format(datum.production_index, '.0f') + ' vs land ' + format(datum.area_index, '.0f')",
+          "as": "divergence_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -8,
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2003,
+            "y": 113.14
+          }
+        ]
+      },
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 100,
+        "color": "#c25e1e",
+        "stroke": "white",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2025 && datum.metric_key == 'production_index'"
+        },
+        {
+          "calculate": "'2025 gap: output ' + format(datum.production_index, '.0f') + ' vs land ' + format(datum.area_index, '.0f')",
+          "as": "divergence_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -8,
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "production_index",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "divergence_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2001,
+            "index_value": 103,
+            "label": "2001 baseline"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 6,
+        "dy": -10,
+        "font": "Inter",
+        "fontSize": 10.5,
+        "fontStyle": "italic",
+        "color": "#6b7570"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "labelColor": "#3a4540",
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "index_value",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleFontWeight": 500,
+      "titleColor": "#1f2421",
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "subtitleLineHeight": 18,
+      "anchor": "start"
+    }
+  }
+}

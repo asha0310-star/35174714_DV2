@@ -1,0 +1,293 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Forest loss has not been spread evenly",
+    "subtitle": "Total tree-cover loss by state, 2001–2024 — absolute loss, not area-normalised."
+  },
+  "width": "container",
+  "height": 380,
+  "projection": {
+    "type": "mercator",
+    "center": [
+      109,
+      4
+    ],
+    "scale": 1900
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/malaysia_states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "layer"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum.properties.NAME_1",
+          "as": "state_name"
+        },
+        {
+          "lookup": "properties.NAME_1",
+          "from": {
+            "data": {
+              "url": "data/forest_loss_state_totals.csv"
+            },
+            "key": "state",
+            "fields": [
+              "total_loss_2001_2024"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.total_loss_2001_2024 / 1000",
+          "as": "loss_kha"
+        },
+        {
+          "filter": "isValid(datum.loss_kha)"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 0.6
+      },
+      "encoding": {
+        "color": {
+          "field": "loss_kha",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "oranges"
+          },
+          "title": "Loss (000 ha)",
+          "legend": {
+            "orient": "bottom",
+            "gradientLength": 280
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state_name",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "format": ",.0f",
+            "title": "Loss (000 ha)"
+          }
+        ],
+        "opacity": {
+          "condition": {
+            "param": "state_select",
+            "empty": false,
+            "value": 1
+          },
+          "value": 0.6
+        },
+        "strokeWidth": {
+          "condition": {
+            "param": "state_select",
+            "empty": false,
+            "value": 1.6
+          },
+          "value": 0.6
+        }
+      },
+      "params": [
+        {
+          "name": "state_select",
+          "select": {
+            "type": "point",
+            "fields": [
+              "state_name"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          },
+          "value": null
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 112.4,
+            "lat": 2.0,
+            "lon2": 113.5,
+            "lat2": 2.5
+          },
+          {
+            "lon": 116.2,
+            "lat": 6.3,
+            "lon2": 117.0,
+            "lat2": 5.4
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#1f2421",
+        "strokeWidth": 1,
+        "opacity": 0.65
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "lon2"
+        },
+        "latitude2": {
+          "field": "lat2"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Sarawak hotspot",
+            "lat": 2.0,
+            "lon": 112.4
+          },
+          {
+            "label": "Sabah hotspot",
+            "lat": 6.3,
+            "lon": 116.2
+          },
+          {
+            "label": "Pahang",
+            "lat": 3.8,
+            "lon": 102.6
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "dx": 0,
+        "dy": -8,
+        "align": "center",
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "stroke": {
+          "value": "#1f2421"
+        },
+        "strokeWidth": {
+          "value": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "East Malaysia: ~5.0M ha of 9.5M total",
+            "lat": 3.9,
+            "lon": 112.0
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "align": "left",
+        "dx": 6,
+        "dy": -6,
+        "color": "#1f2421",
+        "fontWeight": 700
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "note",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleFontWeight": 500,
+      "titleColor": "#1f2421",
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "anchor": "start",
+      "subtitleLineHeight": 18
+    }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "padding": {
+    "top": 16,
+    "right": 30,
+    "bottom": 20,
+    "left": 10
+  }
+}

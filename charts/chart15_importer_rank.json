@@ -1,0 +1,246 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Seven markets buy half of Malaysia’s palm oil exports",
+    "subtitle": "Top importers by 2025 volume; direct labels show tonnes and export share.",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 320,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "data": {
+    "url": "data/top_importers_2025.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.tonnes / 1000000",
+      "as": "tonnes_Mt"
+    },
+    {
+      "calculate": "format(datum.tonnes/1000000, '.2f') + ' Mt · ' + format(datum.share_pct, '.1f') + '%'",
+      "as": "label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusEnd": 3,
+        "opacity": 0.35,
+        "color": "#c25e1e",
+        "size": 14
+      },
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": "-x",
+          "title": null
+        },
+        "x": {
+          "field": "tonnes_Mt",
+          "type": "quantitative",
+          "title": "Import volume (million tonnes)",
+          "axis": {
+            "grid": true,
+            "gridColor": "#eeeeee",
+            "values": [
+              0,
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "labelColor": "#3a4540"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "title": "Importer"
+          },
+          {
+            "field": "tonnes",
+            "type": "quantitative",
+            "format": ",.0f"
+          },
+          {
+            "field": "share_pct",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Share (%)"
+          }
+        ],
+        "opacity": {
+          "value": 0.62
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 180,
+        "color": "#2d5a3d",
+        "stroke": "white",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "tonnes_Mt",
+          "type": "quantitative",
+          "axis": {
+            "values": [
+              0,
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "title": "Importer"
+          },
+          {
+            "field": "tonnes_Mt",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "Volume (Mt)"
+          },
+          {
+            "field": "share_pct",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Share (%)"
+          }
+        ],
+        "opacity": {
+          "value": 0.9
+        },
+        "strokeWidth": {
+          "value": 1.5
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "tonnes_Mt",
+          "type": "quantitative",
+          "axis": {
+            "values": [
+              0,
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "gridColor": "#eeeeee",
+            "labelColor": "#3a4540"
+          }
+        },
+        "text": {
+          "field": "label"
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "title": "Importer"
+          },
+          {
+            "field": "tonnes_Mt",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "Volume (Mt)"
+          },
+          {
+            "field": "share_pct",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Share (%)"
+          }
+        ],
+        "opacity": {
+          "value": 0.9
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleFontWeight": 500,
+      "titleColor": "#1f2421",
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "subtitleLineHeight": 18,
+      "anchor": "start"
+    }
+  },
+  "padding": {
+    "top": 18,
+    "right": 95,
+    "bottom": 32,
+    "left": 8
+  }
+}

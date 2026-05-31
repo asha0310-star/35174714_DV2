@@ -1,0 +1,247 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Sarawak and Sabah carried most of the forest loss",
+    "subtitle": "Annual tree-cover loss by state, 2001–2024. Unit: loss (kha); each panel uses its own y-scale.",
+    "anchor": "start"
+  },
+  "data": {
+    "url": "data/forest_loss_by_state_long.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.tc_loss_ha / 1000",
+      "as": "loss_kha"
+    },
+    {
+      "filter": "isValid(datum.loss_kha)"
+    }
+  ],
+  "facet": {
+    "field": "state",
+    "type": "nominal",
+    "header": {
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelFontWeight": "bold",
+      "labelColor": "#1f2421",
+      "title": null
+    },
+    "sort": {
+      "op": "max",
+      "field": "loss_kha",
+      "order": "descending"
+    }
+  },
+  "columns": 4,
+  "spec": {
+    "width": 165,
+    "height": 115,
+    "layer": [
+      {
+        "mark": {
+          "type": "area",
+          "color": "#c25e1e",
+          "opacity": 0.45,
+          "interpolate": "monotone"
+        },
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "ordinal",
+            "axis": {
+              "labelAngle": 0,
+              "labelOverlap": "greedy",
+              "values": [
+                2001,
+                2010,
+                2024
+              ],
+              "labelFontSize": 9,
+              "labelColor": "#3a4540"
+            },
+            "title": null
+          },
+          "y": {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "title": null,
+            "axis": {
+              "labelFontSize": 9,
+              "tickCount": 3,
+              "labelColor": "#3a4540"
+            }
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "line",
+          "color": "#c25e1e",
+          "strokeWidth": 2.2,
+          "interpolate": "monotone"
+        },
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "ordinal",
+            "axis": {
+              "labelColor": "#3a4540"
+            }
+          },
+          "y": {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "axis": {
+              "labelColor": "#3a4540"
+            }
+          },
+          "tooltip": [
+            {
+              "field": "state",
+              "type": "nominal"
+            },
+            {
+              "field": "year",
+              "type": "ordinal"
+            },
+            {
+              "field": "loss_kha",
+              "type": "quantitative",
+              "format": ",.1f",
+              "title": "Loss (000 ha)"
+            }
+          ]
+        }
+      },
+      {
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "op": "mean",
+                "field": "loss_kha",
+                "as": "mean_loss"
+              }
+            ]
+          }
+        ],
+        "mark": {
+          "type": "rule",
+          "color": "#6b7570",
+          "strokeDash": [
+            3,
+            3
+          ],
+          "opacity": 0.45
+        },
+        "encoding": {
+          "y": {
+            "field": "mean_loss",
+            "type": "quantitative",
+            "axis": {
+              "labelColor": "#3a4540"
+            }
+          }
+        }
+      },
+      {
+        "transform": [
+          {
+            "joinaggregate": [
+              {
+                "op": "max",
+                "field": "loss_kha",
+                "as": "state_peak"
+              }
+            ],
+            "groupby": [
+              "state"
+            ]
+          },
+          {
+            "filter": "datum.loss_kha == datum.state_peak"
+          },
+          {
+            "filter": "datum.state_peak >= 10"
+          },
+          {
+            "calculate": "'peak ' + format(datum.loss_kha, '.0f')",
+            "as": "peak_label"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "fontSize": 9,
+          "font": "Inter",
+          "dy": -8,
+          "dx": 4,
+          "color": "#1f2421",
+          "fontWeight": 700
+        },
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "ordinal",
+            "axis": {
+              "labelColor": "#3a4540"
+            }
+          },
+          "y": {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "axis": {
+              "labelColor": "#3a4540"
+            }
+          },
+          "text": {
+            "field": "peak_label"
+          }
+        }
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "grid": false,
+      "titleColor": "#1f2421",
+      "titleFontWeight": 500,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "anchor": "start",
+      "subtitleLineHeight": 18
+    }
+  },
+  "resolve": {
+    "scale": {
+      "y": "independent"
+    }
+  }
+}

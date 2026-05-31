@@ -1,0 +1,301 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Tree cover loss by state and year",
+    "subtitle": "Annual tree-cover loss by state, 2001–2024 (kha). States sorted by total loss.",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 480,
+  "data": {
+    "url": "data/forest_loss_by_state_long.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.tc_loss_ha / 1000",
+      "as": "loss_kha"
+    },
+    {
+      "filter": "datum.loss_kha != null && isFinite(datum.loss_kha)"
+    }
+  ],
+  "params": [
+    {
+      "name": "state_focus",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "Johor",
+          "Kedah",
+          "Kelantan",
+          "Kuala Lumpur",
+          "Labuan",
+          "Melaka",
+          "Negeri Sembilan",
+          "Pahang",
+          "Perak",
+          "Perlis",
+          "Pulau Pinang",
+          "Putrajaya",
+          "Sabah",
+          "Sarawak",
+          "Selangor",
+          "Trengganu"
+        ],
+        "name": "Highlight state: "
+      }
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal"
+    }
+  },
+  "layer": [
+    {
+      "mark": "rect",
+      "encoding": {
+        "opacity": {
+          "condition": {
+            "test": "state_focus === 'All' || datum.state === state_focus",
+            "value": 0.98
+          },
+          "value": 0.18
+        },
+        "stroke": {
+          "condition": {
+            "test": "state_focus === 'All' || datum.state === state_focus",
+            "value": "#1f2421"
+          },
+          "value": "#ffffff"
+        },
+        "strokeWidth": {
+          "condition": {
+            "test": "state_focus === 'All' || datum.state === state_focus",
+            "value": 0.45
+          },
+          "value": 0.1
+        },
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": null,
+          "axis": {
+            "labelAngle": 0,
+            "labelOverlap": "greedy",
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        },
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "title": null,
+          "axis": {
+            "labelFontSize": 11,
+            "labelLimit": 120,
+            "labelPadding": 6,
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        },
+        "color": {
+          "field": "loss_kha",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "oranges"
+          },
+          "title": "Loss (000 ha)",
+          "legend": {
+            "orient": "bottom"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal"
+          },
+          {
+            "field": "year",
+            "type": "ordinal"
+          },
+          {
+            "field": "loss_kha",
+            "type": "quantitative",
+            "format": ",.1f",
+            "title": "Loss (000 ha)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2012
+          },
+          {
+            "year": 2014
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1.2,
+        "color": "#1f2421",
+        "opacity": 0.45
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2012,
+            "state": "Sarawak",
+            "label": "2012 peak"
+          },
+          {
+            "year": 2014,
+            "state": "Sarawak",
+            "label": "2014 peak"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rect",
+        "fill": "#fffdf8",
+        "opacity": 0.88,
+        "stroke": "#d6dad7",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        },
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "axis": {
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2012,
+            "state": "Sarawak",
+            "label": "2012 peak"
+          },
+          {
+            "year": 2014,
+            "state": "Sarawak",
+            "label": "2014 peak"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 10,
+        "fontWeight": 700,
+        "align": "center",
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        },
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "axis": {
+            "labelColor": "#3a4540",
+            "gridColor": "#eeeeee"
+          }
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "titleColor": "#1f2421",
+      "titleFontWeight": 500,
+      "gridOpacity": 0.75
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "labelFontSize": 11,
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleColor": "#1f2421"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "anchor": "start",
+      "subtitleLineHeight": 18
+    }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "padding": {
+    "top": 18,
+    "right": 28,
+    "bottom": 28,
+    "left": 14
+  }
+}

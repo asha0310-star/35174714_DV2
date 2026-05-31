@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Two producers dominate the world market",
+    "subtitle": [
+      "Crude palm oil production by country, 2014–2024 (million tonnes).",
+      "Move the Year slider to update this ranking and the Malaysia share marker."
+    ],
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 360,
+  "padding": {"top": 18, "right": 72, "bottom": 78, "left": 8},
+  "autosize": {"type": "fit", "contains": "padding"},
+  "data": {"url": "data/cpo_by_country_long.csv"},
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2024,
+      "bind": {"input": "range", "min": 2014, "max": 2024, "step": 1, "name": "Year: "}
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Country !== 'World' && toNumber(datum.Period) == year_select"},
+    {"calculate": "toNumber(datum.Production_Mt)", "as": "Production_Mt_num"},
+    {"calculate": "toNumber(datum.share_pct)", "as": "share_pct_num"},
+    {"calculate": "datum.Country === 'Malaysia' || datum.Country === 'Indonesia' ? datum.Country : 'Other'", "as": "Group_clean"},
+    {"calculate": "format(datum.Production_Mt_num, '.1f') + ' Mt · ' + format(datum.share_pct_num, '.1f') + '%'", "as": "value_label_clean"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "Country",
+      "type": "nominal",
+      "sort": {"field": "Production_Mt_num", "order": "descending"},
+      "title": null,
+      "axis": {"labelLimit": 145, "labelFontSize": 12, "labelColor": "#3a4540"}
+    },
+    "x": {
+      "field": "Production_Mt_num",
+      "type": "quantitative",
+      "title": "Crude palm oil production (Mt)",
+      "scale": {"domain": [0, 50], "nice": false},
+      "axis": {
+        "grid": true,
+        "tickCount": 6,
+        "gridColor": "#eeeeee",
+        "gridOpacity": 0.75,
+        "labelColor": "#3a4540",
+        "titlePadding": 12
+      }
+    },
+    "tooltip": [
+      {"field": "Period", "type": "quantitative", "format": "d", "title": "Selected year"},
+      {"field": "Country", "type": "nominal", "title": "Country"},
+      {"field": "Production_Mt_num", "type": "quantitative", "format": ".2f", "title": "Production (Mt)"},
+      {"field": "share_pct_num", "type": "quantitative", "format": ".1f", "title": "World share (%)"}
+    ]
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar", "cornerRadiusEnd": 3, "opacity": 0.78},
+      "encoding": {
+        "color": {
+          "condition": [
+            {"test": "datum.Group_clean === 'Indonesia'", "value": "#2d5a3d"},
+            {"test": "datum.Group_clean === 'Malaysia'", "value": "#c25e1e"}
+          ],
+          "value": "#8f9792"
+        }
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "size": 100, "stroke": "#fffaf2", "strokeWidth": 1.5},
+      "encoding": {
+        "color": {
+          "condition": [
+            {"test": "datum.Group_clean === 'Indonesia'", "value": "#2d5a3d"},
+            {"test": "datum.Group_clean === 'Malaysia'", "value": "#c25e1e"}
+          ],
+          "value": "#8f9792"
+        }
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 8, "baseline": "middle", "font": "Inter", "fontSize": 11, "fontWeight": 700, "color": "#1f2421"},
+      "encoding": {
+        "text": {"field": "value_label_clean", "type": "nominal"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelColor": "#3a4540",
+      "titleFont": "Inter",
+      "titleFontSize": 12,
+      "titleFontWeight": 500,
+      "titleColor": "#1f2421",
+      "grid": true,
+      "gridColor": "#eeeeee",
+      "gridOpacity": 0.75
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 18,
+      "fontWeight": 600,
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "subtitleLineHeight": 18,
+      "anchor": "start"
+    }
+  }
+}

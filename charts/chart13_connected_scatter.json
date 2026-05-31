@@ -126,11 +126,12 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": 700,
-        "align": "left",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "align": "right",
         "baseline": "middle",
-        "dx": 10,
+        "dx": -10,
+        "dy": -8,
         "color": "#1f2421"
       },
       "encoding": {
@@ -151,19 +152,20 @@
       "data": {
         "values": [
           {
-            "planted_area_Mha": 5.72,
-            "forest_loss_kha": 360,
-            "note": "Path direction: 2001 \u2192 2024"
+            "planted_area_Mha": 3.65,
+            "forest_loss_kha": 200,
+            "note": "Path direction: 2001 → 2024"
           }
         ]
       },
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 13,
-        "fontWeight": 700,
+        "fontSize": 11,
+        "fontWeight": 500,
         "align": "left",
-        "color": "#c25e1e"
+        "color": "#7a8580",
+        "dy": 0
       },
       "encoding": {
         "x": {

@@ -1,0 +1,273 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Sabah and Sarawak sit in the high-palm, high-loss corner",
+    "subtitle": "Each point is a Malaysian state with MPOB 2025 planted area and GFW total tree-cover loss, 2001\u20132024."
+  },
+  "width": "container",
+  "height": 460,
+  "data": {
+    "url": "data/state_tradeoff_2025.csv"
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "planted_area_Mha",
+              "as": "mean_palm"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          6,
+          5
+        ],
+        "color": "#7a8580"
+      },
+      "encoding": {
+        "x": {
+          "field": "mean_palm",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "total_loss_kha",
+              "as": "mean_loss"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          6,
+          5
+        ],
+        "color": "#7a8580"
+      },
+      "encoding": {
+        "y": {
+          "field": "mean_loss",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 1.28,
+            "y": 3030,
+            "q": "High palm / high loss"
+          },
+          {
+            "x": 1.28,
+            "y": 290,
+            "q": "High palm / low loss"
+          },
+          {
+            "x": 0.08,
+            "y": 3030,
+            "q": "Low palm / high loss"
+          },
+          {
+            "x": 0.08,
+            "y": 290,
+            "q": "Low palm / low loss"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "color": "#6b7570",
+        "align": "left"
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "q"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "stroke": "#ffffff",
+        "strokeWidth": 1.3,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "x": {
+          "field": "planted_area_Mha",
+          "type": "quantitative",
+          "axis": {
+            "title": "Oil palm planted area in 2025 (million hectares)"
+          },
+          "scale": {
+            "zero": true
+          }
+        },
+        "y": {
+          "field": "total_loss_kha",
+          "type": "quantitative",
+          "axis": {
+            "title": "Total tree-cover loss, 2001\u20132024 (thousand hectares)"
+          },
+          "scale": {
+            "zero": true
+          }
+        },
+        "size": {
+          "field": "loss_intensity_pct",
+          "type": "quantitative",
+          "legend": {
+            "title": "Loss intensity (%)"
+          },
+          "scale": {
+            "range": [
+              80,
+              650
+            ]
+          }
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Sarawak",
+              "Sabah",
+              "Other states"
+            ],
+            "range": [
+              "#1f3d2f",
+              "#5c8a6e",
+              "#c25e1e"
+            ]
+          },
+          "legend": {
+            "title": null
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state_label",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "planted_area_Mha",
+            "type": "quantitative",
+            "format": ".3f",
+            "title": "Planted area (Mha)"
+          },
+          {
+            "field": "palm_share_pct",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Share of planted area (%)"
+          },
+          {
+            "field": "total_loss_kha",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Tree-cover loss (000 ha)"
+          },
+          {
+            "field": "loss_intensity_pct",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Loss intensity (%)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.label_flag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 10,
+        "color": "#1f2421"
+      },
+      "encoding": {
+        "x": {
+          "field": "planted_area_Mha",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "total_loss_kha",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "state_label"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Inter",
+    "axis": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "titleFontWeight": 600,
+      "titleColor": "#1f2421",
+      "labelColor": "#3a4540",
+      "gridColor": "#e8e6e1"
+    },
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 22,
+      "anchor": "start",
+      "color": "#1f2421",
+      "subtitleFont": "Inter",
+      "subtitleFontSize": 13,
+      "subtitleColor": "#4b5563",
+      "subtitleLineHeight": 18
+    }
+  },
+  "padding": {
+    "left": 78,
+    "right": 120,
+    "top": 10,
+    "bottom": 45
+  }
+}

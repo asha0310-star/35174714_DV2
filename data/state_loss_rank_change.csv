@@ -1,0 +1,33 @@
+state,year,tc_loss_ha,rank,loss_kha,rank_change,highlight,state_label
+Johor,2001,43703,4,43.7,1,Other states,Johor
+Kedah,2001,3600,10,3.6,2,Kedah,Kedah
+Kelantan,2001,10558,8,10.6,4,Kelantan,Kelantan
+Kuala Lumpur,2001,36,15,0.0,1,Other states,Kuala Lumpur
+Labuan,2001,24,16,0.0,2,Other states,Labuan
+Melaka,2001,3593,11,3.6,0,Other states,Melaka
+Negeri Sembilan,2001,22431,5,22.4,4,Negeri Sembilan,Negeri Sembilan
+Pahang,2001,47473,3,47.5,0,Other states,Pahang
+Perak,2001,16246,6,16.2,0,Other states,Perak
+Perlis,2001,259,12,0.3,1,Other states,Perlis
+Pulau Pinang,2001,133,13,0.1,1,Other states,Pulau Pinang
+Putrajaya,2001,61,14,0.1,1,Other states,Putrajaya
+Sabah,2001,63041,2,63.0,0,Other states,Sabah
+Sarawak,2001,100293,1,100.3,0,Other states,Sarawak
+Selangor,2001,11218,7,11.2,3,Selangor,Selangor
+Trengganu,2001,10138,9,10.1,2,Other states,Terengganu
+Johor,2024,19268,5,19.3,1,Other states,Johor
+Kedah,2024,6900,8,6.9,2,Kedah,Kedah
+Kelantan,2024,19725,4,19.7,4,Kelantan,Kelantan
+Kuala Lumpur,2024,15,16,0.0,1,Other states,Kuala Lumpur
+Labuan,2024,19,14,0.0,2,Other states,Labuan
+Melaka,2024,2103,11,2.1,0,Other states,Melaka
+Negeri Sembilan,2024,5846,9,5.8,4,Negeri Sembilan,Negeri Sembilan
+Pahang,2024,38448,3,38.4,0,Other states,Pahang
+Perak,2024,14915,6,14.9,0,Other states,Perak
+Perlis,2024,267,13,0.3,1,Other states,Perlis
+Pulau Pinang,2024,385,12,0.4,1,Other states,Pulau Pinang
+Putrajaya,2024,18,15,0.0,1,Other states,Putrajaya
+Sabah,2024,75672,2,75.7,0,Other states,Sabah
+Sarawak,2024,79341,1,79.3,0,Other states,Sarawak
+Selangor,2024,4768,10,4.8,3,Selangor,Selangor
+Trengganu,2024,14841,7,14.8,2,Other states,Terengganu

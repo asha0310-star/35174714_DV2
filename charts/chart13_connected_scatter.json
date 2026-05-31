@@ -1,9 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Palm expansion and forest loss overlap, but later years drift down",
-    "subtitle": "Connected annual path, 2001–2024: planted area on x-axis and tree-cover loss on y-axis.",
-    "anchor": "start"
+    "text": "Forest loss peaked before planted area fully plateaued",
+    "subtitle": "Connected annual path, 2001\u20132024. X = MPOB planted area; Y = GFW tree-cover loss."
   },
   "width": "container",
   "height": 520,
@@ -12,17 +11,21 @@
   },
   "transform": [
     {
-      "filter": "isValid(datum.planted_area_Mha) && isValid(datum.forest_loss_kha)"
+      "calculate": "datum.year == 2014 ? 'Peak loss: 2014' : datum.year == 2019 ? 'Largest area: 2019' : datum.year == 2024 ? 'Recent: 2024' : ''",
+      "as": "label"
+    },
+    {
+      "calculate": "datum.year == 2014 || datum.year == 2019 || datum.year == 2024",
+      "as": "key_year"
     }
   ],
   "layer": [
     {
       "mark": {
         "type": "line",
-        "color": "#6b7570",
-        "opacity": 0.45,
-        "strokeWidth": 2,
-        "interpolate": "linear"
+        "point": false,
+        "strokeWidth": 2.5,
+        "color": "#7a8580"
       },
       "encoding": {
         "x": {
@@ -30,144 +33,117 @@
           "type": "quantitative",
           "scale": {
             "zero": false,
-            "nice": true
+            "nice": false
           },
-          "title": "Malaysia's oil palm planted area (million hectares)",
           "axis": {
-            "grid": true,
-            "gridColor": "#eeeeee",
-            "tickCount": 5,
-            "labelColor": "#3a4540"
+            "title": "Oil palm planted area (million hectares)",
+            "grid": true
           }
         },
         "y": {
           "field": "forest_loss_kha",
           "type": "quantitative",
-          "title": "Tree cover loss that year (thousand hectares)",
           "axis": {
-            "grid": true,
-            "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
+            "title": "Tree-cover loss (thousand hectares)",
+            "grid": true
           }
         },
         "order": {
           "field": "year",
-          "type": "quantitative"
+          "type": "ordinal"
         }
       }
     },
     {
       "mark": {
-        "type": "circle",
-        "stroke": "white",
+        "type": "point",
+        "filled": true,
+        "size": 105,
+        "stroke": "#ffffff",
         "strokeWidth": 1.5
       },
       "encoding": {
         "x": {
           "field": "planted_area_Mha",
-          "type": "quantitative",
-          "axis": {
-            "tickCount": 5,
-            "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
-          }
+          "type": "quantitative"
         },
         "y": {
           "field": "forest_loss_kha",
-          "type": "quantitative",
-          "axis": {
-            "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
-          }
-        },
-        "size": {
-          "value": 150
-        },
-        "opacity": {
-          "value": 0.88
+          "type": "quantitative"
         },
         "color": {
           "field": "year",
           "type": "quantitative",
           "scale": {
-            "scheme": "viridis"
+            "scheme": "oranges"
           },
-          "title": "Year",
           "legend": {
-            "orient": "right",
-            "gradientLength": 200,
-            "format": "d",
-            "labelColor": "#3a4540",
-            "titleColor": "#1f2421"
+            "title": "Year"
           }
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.key_year",
+            "value": 1
+          },
+          "value": 0.72
+        },
+        "size": {
+          "condition": {
+            "test": "datum.key_year",
+            "value": 180
+          },
+          "value": 75
         },
         "tooltip": [
           {
             "field": "year",
             "type": "quantitative",
-            "title": "Year",
-            "format": "d"
+            "format": "d",
+            "title": "Year"
           },
           {
             "field": "planted_area_Mha",
             "type": "quantitative",
-            "title": "Planted area (Mha)",
-            "format": ".2f"
+            "format": ".2f",
+            "title": "Planted area (Mha)"
           },
           {
             "field": "forest_loss_kha",
             "type": "quantitative",
-            "title": "Forest loss (000 ha)",
-            "format": ",.0f"
+            "format": ".1f",
+            "title": "Tree-cover loss (000 ha)"
           }
         ]
       }
     },
     {
-      "data": {
-        "values": [
-          {
-            "x": 3.5,
-            "y": 332.81,
-            "x2": 3.72,
-            "y2": 385
-          },
-          {
-            "x": 5.39,
-            "y": 646.03,
-            "x2": 4.83,
-            "y2": 715
-          },
-          {
-            "x": 5.61,
-            "y": 282.53,
-            "x2": 5.3,
-            "y2": 210
-          }
-        ]
-      },
+      "transform": [
+        {
+          "filter": "datum.key_year"
+        }
+      ],
       "mark": {
-        "type": "rule",
-        "color": "#1f2421",
-        "strokeWidth": 1,
-        "opacity": 0.65
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 10,
+        "color": "#1f2421"
       },
       "encoding": {
         "x": {
-          "field": "x",
+          "field": "planted_area_Mha",
           "type": "quantitative"
         },
         "y": {
-          "field": "y",
+          "field": "forest_loss_kha",
           "type": "quantitative"
         },
-        "x2": {
-          "field": "x2",
-          "type": "quantitative"
-        },
-        "y2": {
-          "field": "y2",
-          "type": "quantitative"
+        "text": {
+          "field": "label"
         }
       }
     },
@@ -175,140 +151,92 @@
       "data": {
         "values": [
           {
-            "x": 3.72,
-            "y": 385,
-            "label": "Start\n2001",
-            "align": "left"
-          },
-          {
-            "x": 4.83,
-            "y": 715,
-            "label": "Peak-loss period\n2012–2014",
-            "align": "right"
-          },
-          {
-            "x": 5.3,
-            "y": 210,
-            "label": "Latest\n2024",
-            "align": "right"
+            "planted_area_Mha": 5.72,
+            "forest_loss_kha": 360,
+            "note": "Path direction: 2001 \u2192 2024"
           }
         ]
       },
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 12,
+        "fontSize": 13,
         "fontWeight": 700,
-        "lineBreak": "\n",
-        "color": "#1f2421",
-        "align": "left"
-      },
-      "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        }
-      }
-    },
-    {
-      "transform": [
-        {
-          "filter": "datum.year == 2001 || datum.year == 2012 || datum.year == 2014 || datum.year == 2024"
-        }
-      ],
-      "mark": {
-        "type": "point",
-        "filled": true,
-        "size": 190,
-        "stroke": "#1f2421",
-        "strokeWidth": 1.4
+        "align": "left",
+        "color": "#c25e1e"
       },
       "encoding": {
         "x": {
           "field": "planted_area_Mha",
-          "type": "quantitative",
-          "axis": {
-            "tickCount": 5,
-            "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
-          }
+          "type": "quantitative"
         },
         "y": {
           "field": "forest_loss_kha",
-          "type": "quantitative",
-          "axis": {
-            "gridColor": "#eeeeee",
-            "labelColor": "#3a4540"
-          }
+          "type": "quantitative"
         },
-        "color": {
-          "field": "year",
-          "type": "quantitative",
-          "scale": {
-            "scheme": "viridis"
-          },
-          "legend": {
-            "labelColor": "#3a4540",
-            "titleColor": "#1f2421"
+        "text": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "planted_area_Mha": 5.39,
+            "forest_loss_kha": 681.62
           }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          4,
+          4
+        ],
+        "color": "#c25e1e",
+        "opacity": 0.5
+      },
+      "encoding": {
+        "y": {
+          "field": "forest_loss_kha",
+          "type": "quantitative"
         }
       }
     }
   ],
   "config": {
-    "view": {
-      "stroke": "transparent"
-    },
+    "font": "Inter",
     "axis": {
-      "domain": false,
-      "ticks": false,
       "labelFont": "Inter",
-      "labelFontSize": 12,
-      "labelColor": "#3a4540",
       "titleFont": "Inter",
-      "titleFontSize": 12,
-      "titleFontWeight": 500,
+      "titleFontWeight": 600,
       "titleColor": "#1f2421",
-      "grid": true,
-      "gridColor": "#eeeeee",
-      "gridOpacity": 0.75
-    },
-    "legend": {
-      "labelFont": "Inter",
-      "labelFontSize": 11,
       "labelColor": "#3a4540",
-      "titleFont": "Inter",
-      "titleFontSize": 12,
-      "titleColor": "#1f2421"
+      "gridColor": "#e8e6e1"
+    },
+    "view": {
+      "stroke": null
     },
     "title": {
       "font": "Fraunces",
-      "fontSize": 18,
-      "fontWeight": 600,
+      "fontSize": 22,
+      "anchor": "start",
       "color": "#1f2421",
       "subtitleFont": "Inter",
       "subtitleFontSize": 13,
       "subtitleColor": "#4b5563",
-      "subtitleLineHeight": 18,
-      "anchor": "start"
+      "subtitleLineHeight": 18
     }
+  },
+  "padding": {
+    "left": 70,
+    "right": 140,
+    "top": 10,
+    "bottom": 45
   },
   "autosize": {
     "type": "fit",
     "contains": "padding"
-  },
-  "padding": {
-    "top": 18,
-    "right": 110,
-    "bottom": 42,
-    "left": 8
   }
 }

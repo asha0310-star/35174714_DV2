@@ -25,7 +25,8 @@ FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story 
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | Our World in Data — Palm Oil (`raw/palm-oil-production(Our World in Data).csv`, `raw/land-use-palm-oil.csv`)                                         | `data/palm_production_long.csv`, `data/landuse_slope.csv`                                                                                                                           | Long-run global production and harvested-area context.                                                   |
 | Malaysian Palm Oil Board overview reports (`raw/Annual Overview Reports Overview 2024.pdf` and public 2025 overview figures typed into `wrangle.py`) | `data/malaysia_yearly.csv`, `data/production_area_index.csv`, `data/malaysia_palmoil_kpi.csv`, `data/state_cpo_2025.csv`, `data/top_importers_2025.csv`, `data/imports_flows.csv`, `data/malaysia_economy_yearly.csv` | Malaysia production, planted area, regional 2025 production, export values, and top export destinations. |
-| Global Forest Watch (`raw/Global Forest Watch Data.xlsx`)                                                                                            | `data/forest_loss_by_state_long.csv`, `data/forest_loss_state_totals.csv`, `data/state_loss_intensity.csv`, `data/area_vs_loss_yearly.csv`                                                                           | State and national tree-cover loss, 2001–2024.                                                           |
+| MPOB Oil Palm Planted Area 2025 state table (`https://bepi.mpob.gov.my/images/area/2025/Area_summary2025.pdf`) | `data/state_planted_area_2025.csv`, used with GFW-derived totals in `data/state_tradeoff_2025.csv` | State-level 2025 oil-palm planted area for the quadrant trade-off chart. |
+| Global Forest Watch (`raw/Global Forest Watch Data.xlsx`)                                                                                            | `data/forest_loss_by_state_long.csv`, `data/forest_loss_state_totals.csv`, `data/state_loss_intensity.csv`, `data/area_vs_loss_yearly.csv`, `data/state_loss_rank_change.csv`                                                                           | State and national tree-cover loss, 2001–2024.                                                           |
 | Malaysia TopoJSON (`data/malaysia_states.topojson`)                                                                                                  | used directly by `charts/map08_choropleth_states.json` and `charts/map09_layered_map.json`                                                                                          | Geographic state boundaries for Vega-Lite maps.                                                          |
 
 ## Data caveats
@@ -34,6 +35,16 @@ FIT2179 Data Visualisation 2, Semester 1 2026. This single-page Vega-Lite story 
 - The project uses tree-cover loss and palm oil production together to show overlap and timing, not exact hectare-by-hectare causality.
 - OWID's long-run production series currently ends at 2023, while MPOB industry data in this repository includes 2025 values. The linked global-share chart therefore caps its selected-year marker at 2023.
 - MPOB PDF values that are not provided as machine-readable CSV are typed into `wrangle.py` with comments and mirrored in the small cleaned CSV files.
+- `data/state_tradeoff_2025.csv` is derived by joining MPOB 2025 state planted-area values with existing GFW state tree-cover-loss totals. Federal territories without MPOB oil-palm planted-area rows are excluded from this palm-state comparison.
+- `data/state_loss_rank_change.csv` is derived from `data/forest_loss_by_state_long.csv` by ranking each state in the earliest and latest available years (2001 and 2024).
+
+## 2026 polish change log
+
+- Upgraded the centrepiece connected scatter plot with key-year annotations for the peak tree-cover-loss year, largest planted-area year in the joined series, and the latest forest-loss year.
+- Added a custom state trade-off quadrant chart comparing 2025 oil-palm planted area with 2001–2024 tree-cover loss.
+- Added a state ranking slopegraph comparing tree-cover-loss rankings in 2001 and 2024.
+- Reworked section headings, chart explanations, callouts, map-method note, and footer metadata to strengthen the single-scroll story and academic acknowledgement.
+- Improved responsive layout and typography while keeping all charts in Vega-Lite v5 JSON files and all downloadable derived datasets small.
 
 ## Hand-drawn sketch
 
